@@ -1,0 +1,71 @@
+import allure
+from pages.base_page import BasePage
+from pages.main_page import MainPage
+from pages.login_page import LoginPage
+from pages.modal_page import ModalPage
+from pages.account_page import AccountPage
+
+class TestAccountPage:
+    @allure.title('Проверка входа в "Личный кабинет"')
+    @allure.description('На странице ищем "Личный кабинет", логинимся и заходим в аккаунт')
+    def test_entrance_in_account_positive_result(self, user, driver):
+        base_page = BasePage(driver)
+        base_page.wait_for_preloader_hide()
+        base_page.click_personal_account_button()
+        login_page = LoginPage(driver)
+        login_page.set_email_input(user)
+        login_page.set_password_input(user)
+        login_page.click_login_button()
+        base_page.wait_for_preloader_hide()
+        base_page.click_personal_account_button()
+        account_page = AccountPage(driver)
+        account_page.wait_for_load_account_page()
+        account_page.check_account_url()
+
+    @allure.title('Проверка перехода в раздел "История заказов"')
+    @allure.description('В аккаунте ищем кнопку "История заказов" и переходим по ней')
+    def test_order_history_positive_result(self, user, driver):
+        base_page = BasePage(driver)
+        base_page.wait_for_preloader_hide()
+        base_page.click_personal_account_button()
+        login_page = LoginPage(driver)
+        login_page.set_email_input(user)
+        login_page.set_password_input(user)
+        login_page.click_login_button()
+        base_page.wait_for_preloader_hide()
+        main_page = MainPage(driver)
+        main_page.wait_for_load_main_page()
+        main_page.drag_and_drop_first_element()
+        main_page.drag_and_drop_third_element()
+        main_page.drag_and_drop_seventh_element()
+        main_page.click_place_an_order_button()
+        modal_page = ModalPage(driver)
+        base_page.wait_for_preloader_hide()
+        modal_page.click_modal_close_button()
+        modal_page.wait_for_close()
+        base_page.click_personal_account_button()
+        account_page = AccountPage(driver)
+        base_page.wait_for_preloader_hide()
+        account_page.wait_for_load_account_page()
+        account_page.click_order_history_button()
+        account_page.wait_for_load_history()
+        account_page.check_order_history()
+
+    @allure.title('Проверка выхода из "Личного кабинета"')
+    @allure.description('В аккаунте ищем кнопку выхода и нажимаем на нее')
+    def test_logout_from_account_positive_result(self, user, driver):
+        base_page = BasePage(driver)
+        base_page.wait_for_preloader_hide()
+        base_page.click_personal_account_button()
+        login_page = LoginPage(driver)
+        login_page.set_email_input(user)
+        login_page.set_password_input(user)
+        login_page.click_login_button()
+        base_page.wait_for_preloader_hide()
+        base_page.click_personal_account_button()
+        account_page = AccountPage(driver)
+        account_page.wait_for_load_account_page()
+        base_page.wait_for_preloader_hide()
+        account_page.click_logout_button()
+        login_page.wait_for_load_login_page()
+        login_page.check_login_url()

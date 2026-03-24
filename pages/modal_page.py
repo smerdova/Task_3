@@ -13,18 +13,19 @@ class ModalPage(BasePage):
 
     @allure.step('Проверяем, что появилась надпись "Ваш заказ начали готовить" в новом модальном окне')
     def check_order_title(self):
-        element = self.driver.find_element(*ModalPageLocators.order_title)
+        element = self.find_element(ModalPageLocators.order_title)
         
         assert element.is_displayed()
 
     @allure.step('Закрытие модального окна') 
     def click_modal_close_button(self):
-        self.driver.find_element(*ModalPageLocators.modal_close_button).click()
+        self.wait_for_preloader_hide()
+        self.wait(15).until(expected_conditions.visibility_of_element_located(ModalPageLocators.modal_close_button))
+        self.find_element(ModalPageLocators.modal_close_button).click()
+        self.wait(15).until(expected_conditions.invisibility_of_element_located(ModalPageLocators.modal_close_button))
 
     @allure.step('Получаем id заказа') 
     def get_id_order(self):
-        return int(self.driver.find_element(*ModalPageLocators.id_order).text)
+        self.wait_for_preloader_hide()
+        return int(self.find_element(ModalPageLocators.id_order).text)
     
-    @allure.step('Ожидаем закрытия модального окна') 
-    def wait_for_close(self):
-        WebDriverWait(self.driver, 15).until(expected_conditions.invisibility_of_element_located(ModalPageLocators.modal_close_button))

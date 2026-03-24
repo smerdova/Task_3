@@ -16,6 +16,5 @@ class TestResetPasswordPage:
         forgot_password_page.set_email_input('smerdovaTest@gmail.com')
         forgot_password_page.click_recover_button()
         reset_password_page = ResetPasswordPage(driver)
-        reset_password_page.wait_for_load_reset_password_page()
         reset_password_page.click_icon_input()
         reset_password_page.check_password_input()

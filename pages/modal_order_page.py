@@ -11,6 +11,6 @@ class ModalOrderPage(BasePage):
 
     @allure.step('Проверяем, что появилась надпись "Состав" в модальном окне с деталями заказа')
     def check_composition_title(self):
-        element = self.driver.find_element(*ModalOrderPageLocators.composition_title)
+        element = self.find_element(ModalOrderPageLocators.composition_title)
         
         assert element.is_displayed()

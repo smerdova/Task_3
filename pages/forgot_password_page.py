@@ -12,12 +12,12 @@ class ForgotPasswordPage(BasePage):
 
     @allure.step('Ищем поле "Email" и заполняем его')
     def set_email_input(self, email):
-        self.driver.find_element(*ForgotPasswordPageLocators.email_input).send_keys(email)
+        self.find_element(ForgotPasswordPageLocators.email_input).send_keys(email)
 
     @allure.step('Ищем кнопку "Восстановить" и нажимаем на неё') 
     def click_recover_button(self):
-        self.driver.find_element(*ForgotPasswordPageLocators.recover_button).click()
+        self.find_element(ForgotPasswordPageLocators.recover_button).click()
 
     @allure.step('Проверяем url страницы восстановления пароля')
     def check_forgot_password_url(self):
-        assert self.driver.current_url == paths.FORGOT_PASSWORD_URL
+        assert self.get_current_url() == paths.FORGOT_PASSWORD_URL
